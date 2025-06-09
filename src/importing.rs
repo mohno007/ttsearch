@@ -26,7 +26,11 @@ where
     }
 
     if path.is_file() {
-        if path.to_string_lossy() == "messages.csv" {
+        let filename = path.file_name()
+            .unwrap_or_default()
+            .to_string_lossy();
+
+        if filename == "messages.csv" {
             log::info!("Importing {}", path.to_string_lossy());
             let file = File::open(path)?;
             csv::read_csv_messages(file, f)?
